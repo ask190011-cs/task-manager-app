@@ -1,34 +1,50 @@
 <!DOCTYPE html>
-<a href="/logout">Logout</a>
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Task Manager</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <h1>Task Manager</h1>
+<body class="bg-gray-100">
 
-    <form method="POST">
-        <input type="text" name="content" placeholder="Enter a task" required>
-        <button type="submit">Add Task</button>
+<div class="max-w-xl mx-auto mt-10 bg-white p-6 rounded-2xl shadow-lg">
+
+    <h1 class="text-2xl font-bold mb-4 text-center">Task Manager</h1>
+
+    <!-- Add Task -->
+    <form method="POST" class="flex gap-2 mb-4">
+        <input 
+            type="text" 
+            name="content" 
+            placeholder="Enter a task..." 
+            class="flex-1 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+            required
+        >
+        <button class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+            Add
+        </button>
     </form>
 
-    <ul>
+    <!-- Task List -->
+    <ul class="space-y-3">
         {% for task in tasks %}
-            <li>
-                {% if task[2] == 1 %}
-                    <s>{{ task[1] }}</s>
-                {% else %}
-                    {{ task[1] }}
-                {% endif %}
-    
-                <div>
-                    <a href="/complete/{{ task[0] }}">✔</a>
-                    <a href="/edit/{{ task[0] }}">✏️</a>
-                    <a href="/delete/{{ task[0] }}">❌</a>
-                </div>
-            </li>
+        <li class="flex justify-between items-center p-3 rounded-lg 
+            {% if task[2] == 1 %} bg-green-100 {% else %} bg-gray-50 {% endif %}">
+
+            <span class="{% if task[2] == 1 %} line-through text-gray-500 {% endif %}">
+                {{ task[1] }}
+            </span>
+
+            <div class="flex gap-2">
+                <a href="/complete/{{ task[0] }}" class="text-green-600 hover:underline">✓</a>
+                <a href="/edit/{{ task[0] }}" class="text-yellow-600 hover:underline">Edit</a>
+                <a href="/delete/{{ task[0] }}" class="text-red-600 hover:underline">Delete</a>
+            </div>
+        </li>
         {% endfor %}
     </ul>
+
+</div>
+
 </body>
 </html>
